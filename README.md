@@ -43,7 +43,7 @@ VestingWallet
 --import_paths
 .\contracts\
 --result_path
-.
+.\results\
 ```
 
 The contract dependency is shown here:
