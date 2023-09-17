@@ -12,9 +12,9 @@ logger = logging.getLogger(__name__)
 
 def register_basic_arguments(parser: argparse.ArgumentParser):
     # Define command-line arguments
-    parser.add_argument('--solidity_file_path', type=str, default="",
+    parser.add_argument('-p','--solidity_file_path', type=str, default="",
                         help="specify the path where Solidity files are held.")
-    parser.add_argument('--solidity_file_name', type=str, default="",
+    parser.add_argument('-n','--solidity_file_name', type=str, default="",
                         help="specify the name of the solidity file of the target contract.")
 
     parser.add_argument('--contract_name', type=str, help="specify the name of the target contract")
