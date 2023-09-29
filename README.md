@@ -5,7 +5,7 @@ This version reduces the burn of giving proper import paths to compile a Solidit
 
 One use case is to obtain compilable Solidity files from a large number of Solidity files. 
 
-## Use it Pycharm as a project ##
+## Use it as a  Pycharm project ##
 
 #### 1, Create a new project in Pycharm by cloning this repository ####
 
