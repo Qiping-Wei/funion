@@ -47,7 +47,7 @@ class InstallCommand(_install):
 
 setup(
     name='funion',
-    version='0.1.1',
+    version='0.1.2',
     description=DESCRIPTION,
     author=AUTHOR,
     email=AUTHOR_MAIL,

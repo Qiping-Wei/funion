@@ -1,6 +1,8 @@
 import solcx
 from solcx import compile_standard
 import solcast
+from solcx.exceptions import SolcError, UnsupportedVersionError
+
 from funion.utils import read_a_file, remove_comments
 
 
@@ -18,10 +20,13 @@ def get_all_AST_nodes(solidity_file_path:str, solidity_file_name:str, solc_versi
     # solcx_binary_path = "/home/wei/.solcx/"
     # os.environ["SOLCX_BINARY"] = solcx_binary_path
 
-    if solc_version not in solcx.get_installed_solc_versions():
-        solcx.install_solc(solc_version)
-    solcx.set_solc_version(solc_version)
-
+    try:
+        if solc_version not in solcx.get_installed_solc_versions():
+            solcx.install_solc(solc_version)
+        solcx.set_solc_version(solc_version)
+    except UnsupportedVersionError:
+        print(f'solcx:UnsupportedVersionError.')
+        return None
     solidity_file_path = solidity_file_path + solidity_file_name
 
     allowed_paths = import_paths + ["."]
@@ -29,28 +34,33 @@ def get_all_AST_nodes(solidity_file_path:str, solidity_file_name:str, solc_versi
     file_content = remove_comments(file_content)
 
     # Compile the contract using py-solc-x
-    compiled_contract = compile_standard(
-        {
-            "language": "Solidity",
-            "sources": {solidity_file_path: {"content": file_content}},
-            # "sources": {file: {"urls": [file]}},
-            "settings": {
-                "outputSelection": {
-                    "*": {
-                        "": ["*"],
-                        # "": ["ast"],
-                        # "*": ["metadata", "evm.bytecode", "evm.deployedBytecode", "abi", 'ir', 'sotrageLayout',
-                        #       "irAst"]  # ["abi", "evm.bytecode"]
+    try:
+        compiled_contract = compile_standard(
+            {
+                "language": "Solidity",
+                "sources": {solidity_file_path: {"content": file_content}},
+                # "sources": {file: {"urls": [file]}},
+                "settings": {
+                    "outputSelection": {
+                        "*": {
+                            "": ["*"],
+                            # "": ["ast"],
+                            # "*": ["metadata", "evm.bytecode", "evm.deployedBytecode", "abi", 'ir', 'sotrageLayout',
+                            #       "irAst"]  # ["abi", "evm.bytecode"]
+                        }
                     }
                 }
-            }
-        },
-        allow_paths=allowed_paths
-    )
+            },
+            allow_paths=allowed_paths
+        )
+        SourceUnit_all_nodes = solcast.from_standard_output(compiled_contract)
 
-    SourceUnit_all_nodes = solcast.from_standard_output(compiled_contract)
+        return SourceUnit_all_nodes
+    except SolcError as e:
+        print(f'SolcError: {e.message}')
+        return None
 
-    return SourceUnit_all_nodes
+
 
 
 def get_ast_root_node(solidity_file_path:str, solidity_file_name:str, solc_version:str, import_paths:list):
