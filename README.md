@@ -1,9 +1,9 @@
 ## Funion ##
-Funion combines multiple involved Solidity files in one compilable and independent Solidity file.
+Funion combines multiple involved Solidity files in one independent Solidity file.
 
 This version reduces the burn of giving proper import paths to compile a Solidity file that imports dependent contracts or libraries. All the user need to do is to give the root paths of contract pools that the to-be-compiled Solidty file uses. In addition, it can support to handle a group of Solidity files together instead of one by one manually.
 
-One use case is to obtain compilable Solidity files from a large number of Solidity files. 
+One use case is to obtain independent Solidity files from a large number of Solidity files. 
 
 ## Use it as a  Pycharm project ##
 
@@ -12,7 +12,7 @@ One use case is to obtain compilable Solidity files from a large number of Solid
 #### 2, Create virtual environment and install dependent packages ####
 
 #### 3, Path Configuration ####
-In the config.py, provide the paths of the Solidity pools you want to obtain compilable Solidity files, the contract pools (collections) that the Solidity files to be compiled import, and other paths.
+In the config.py, provide the paths of the Solidity pools you want to obtain independent Solidity files, the contract pools (collections) that the Solidity files to be compiled import, and other paths.
 
 Here is an example. 
 ```
@@ -31,11 +31,11 @@ contract_pool_name_path_map={
     "openzeppelin":openzeppelin_path,
 }
 ```
-**solidity_pool_path**: specifies the path that contains the Solidity files you want to get compilable independent Solidity files.
+**solidity_pool_path**: specifies the path that contains the Solidity files you want to get independent Solidity files.
 
 **temp_path**: used to temporarily store file data during the the combining process. 
 
-**result_path**: holds the compilable Solidity files.
+**result_path**: holds the Solidity files.
 
 **openzeppelin_path**: specifies the path to the Openzeppelin contracts pool. 
 
